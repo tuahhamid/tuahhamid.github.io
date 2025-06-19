@@ -1,6 +1,6 @@
 +++
 date = '2023-03-28T15:28:28+08:00'
-draft = true
+draft = false
 title = 'My First Dynamo'
 +++
 
@@ -10,4 +10,4 @@ Every Revit user has a story on how they got hooked with Dynamo. Mine is a simpl
 
 Not all Dynamo scripts require UI interaction but in this case, I do need the user to choose which elevation names they intend to regenerate. UI form is really easy to prop up with packages like Data-Shapes.
 
-![Data-Shapes Image]()
+![Image](https://github.com/tuahhamid/tuahhamid.github.io/blob/main/static/my-first-dynamo/UI-input-node.png)
