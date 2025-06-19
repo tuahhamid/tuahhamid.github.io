@@ -1,6 +1,5 @@
 +++
 date = '2023-03-28T15:28:28+08:00'
-draft = false
 title = 'My First Dynamo'
 +++
 
