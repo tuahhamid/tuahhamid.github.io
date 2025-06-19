@@ -11,8 +11,13 @@
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-03-28T15:28:28+08:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/posts/viewer/</loc>
+    <lastmod>2025-01-01T15:28:28+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/my-first-dynamo/</loc>
     <lastmod>2023-03-28T15:28:28+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/about/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
