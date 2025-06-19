@@ -1,5 +1,6 @@
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+languagecode = "en"
+defaultcontentlanguage = "en"
 title = 'Buruh Hybrid | Tuah Hamid'
 theme = 'hugo-coder'
 markup.goldmark.renderer.unsafe = true
