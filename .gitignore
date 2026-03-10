@@ -1,0 +1,25 @@
+# Hugo output
+/public/
+/resources/_gen/
+
+# Hugo state
+/hugo_stats.json
+
+# Node dependencies
+/node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# OS generated files
+Thumbs.db
+Desktop.ini
