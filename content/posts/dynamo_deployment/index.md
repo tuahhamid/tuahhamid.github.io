@@ -1,6 +1,6 @@
 +++
 date = '2026-02-02T09:00:00+08:00'
-draft = true
+draft = false
 title = 'I Tried 3 Dynamo Graph Deployment Tools So You Do Not Have To '
 +++
 
