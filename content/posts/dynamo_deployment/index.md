@@ -4,8 +4,6 @@ draft = false
 title = 'I Tried 3 Dynamo Graph Deployment Tools So You Do Not Have To '
 +++
 
-*This file includes placeholders for GIFs, images, and external links.*
-
 ## Outside looking in 👀
 Dynamo continues to grow in relevance within the Revit ecosystem, especially with its transition to the modern .NET 8 platform and CPython engine. My confidence in Dynamo also increased when [John Pierson](https://github.com/johnpierson) joined Autodesk as part of the Dynamo team. Anyone who has used Rhythm or Monocle knows how much he has shaed the experience for beginners and advance users alike. IMO, his presence signals that Dynamo is moving in a meaningful and community centered direction.
 
