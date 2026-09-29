@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gate check</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F0EA;--ink:#15171C;--muted:#4A4F5A;--line:#D9D6CC;--res:#1D4ED8;--flag:#B45309;--vis:#3F4652}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;
+  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+header{background:var(--ink);color:#F2F0EA;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+header h1{margin:0;font-size:18px;font-weight:600}
+header input{width:150px;min-height:40px;border-radius:8px;border:1px solid #4A4F5A;background:#22252B;color:#fff;padding:0 10px;font:inherit}
+main{max-width:480px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:56px;border-radius:10px;border:2px solid var(--ink);
+  background:#fff;color:var(--ink);font:600 17px 'IBM Plex Sans',sans-serif;cursor:pointer;width:100%}
+.btn.primary{background:var(--ink);color:#fff}
+.btn:disabled{opacity:.5}
+#preview{width:100%;max-height:180px;object-fit:contain;border-radius:10px;background:#D9D6CC;display:none}
+.row{display:flex;gap:8px}
+#plate{flex:1;min-height:56px;border-radius:10px;border:2px solid var(--ink);padding:0 12px;
+  font:600 24px 'IBM Plex Mono',monospace;letter-spacing:2px;text-transform:uppercase;min-width:0}
+#check{width:96px}
+.status{font-size:14px;color:var(--muted);min-height:20px}
+.band{border-radius:12px;padding:16px 18px;color:#fff}
+.band b{display:block;font-size:21px}
+.band span{font-size:14px;opacity:.92}
+.hidden{display:none !important}
+.chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.chip{min-height:48px;border-radius:10px;border:1px solid #B5B1A5;background:#fff;font:600 15px 'IBM Plex Sans',sans-serif;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--res);border-color:var(--res);color:#fff}
+label.f{font-size:14px;font-weight:500;display:flex;flex-direction:column;gap:6px}
+label.f input{min-height:48px;border-radius:10px;border:1px solid #B5B1A5;padding:0 12px;font:inherit;font-size:17px}
+.sugg{display:flex;flex-direction:column;gap:8px}
+.sugg button{min-height:52px;border-radius:10px;border:1px solid var(--res);background:#fff;display:flex;justify-content:space-between;
+  align-items:center;padding:0 14px;font:600 18px 'IBM Plex Mono',monospace;color:var(--ink)}
+.sugg small{font:500 14px 'IBM Plex Sans',sans-serif;color:var(--muted)}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0));background:var(--ink);color:#fff;
+  padding:14px 16px;border-radius:10px;font-weight:500;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>Gate check</h1>
+  <input id="guard" aria-label="Guard name" placeholder="Guard name">
+</header>
+<main>
+  <label class="btn primary" for="cam">Take photo of plate</label>
+  <input id="cam" type="file" accept="image/*" capture="environment" class="hidden">
+  <img id="preview" alt="Captured plate photo">
+  <div class="status" id="ocrStatus"></div>
+
+  <div class="row">
+    <input id="plate" aria-label="Plate number" placeholder="Plate" autocomplete="off" autocapitalize="characters">
+    <button class="btn" id="check" type="button">Check</button>
+  </div>
+
+  <section id="result" class="hidden" aria-live="polite">
+    <div class="band" id="band"><b id="bandTitle"></b><span id="bandSub"></span></div>
+  </section>
+
+  <section id="suggest" class="hidden">
+    <div class="status">Did you mean</div>
+    <div class="sugg" id="suggList"></div>
+  </section>
+
+  <section id="visitor" class="hidden" style="display:flex;flex-direction:column;gap:10px">
+    <div class="chips" role="group" aria-label="Visitor type">
+      <button class="chip" type="button" data-cat="Delivery rider">Delivery rider</button>
+      <button class="chip" type="button" data-cat="Short visit">Short visit</button>
+      <button class="chip" type="button" data-cat="Overnight">Overnight</button>
+      <button class="chip" type="button" data-cat="Contractor">Contractor</button>
+      <button class="chip" type="button" data-cat="Ride-hailing">Ride-hailing</button>
+      <button class="chip" type="button" data-cat="Other">Other</button>
+    </div>
+    <label class="f">Visiting unit <input id="unit" placeholder="e.g. 12-08" inputmode="text"></label>
+  </section>
+
+  <div class="row hidden" id="actions">
+    <button class="btn primary" type="button" id="logIn">Log entry</button>
+    <button class="btn" type="button" id="logOut">Log exit</button>
+  </div>
+</main>
+<div id="toast" class="hidden" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycby-CgRJOA3LPsMjRmXcBi-6cIil0baWEAr458HQaVtlrOxqE10PjSnNU24oabGR3yRn/exec';
+const API_KEY = 'cOD3aCmW45S00j6MexFxLnNOrDSjIXWEd';
+
+const $ = (id) => document.getElementById(id);
+let worker = null, current = null, category = '';
+
+try { $('guard').value = localStorage.getItem('guard') || ''; } catch (e) {}
+$('guard').addEventListener('change', () => { try { localStorage.setItem('guard', $('guard').value); } catch (e) {} });
+
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.add('hidden'), 2600); }
+function pretty(p) { const m = /^([A-Z]+)(\d+)([A-Z]*)$/.exec(p || ''); return m ? [m[1], m[2], m[3]].filter(Boolean).join(' ') : (p || ''); }
+function norm(s) { return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+
+async function getWorker() {
+  if (!worker) {
+    worker = await Tesseract.createWorker('eng');
+    await worker.setParameters({ tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', tessedit_pageseg_mode: '6' });
+  }
+  return worker;
+}
+
+function prep(img, invert) {
+  const scale = Math.min(1, 1400 / img.naturalWidth);
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.naturalWidth * scale); c.height = Math.round(img.naturalHeight * scale);
+  const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0, c.width, c.height);
+  const d = ctx.getImageData(0, 0, c.width, c.height), px = d.data;
+  for (let i = 0; i < px.length; i += 4) {
+    let g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+    if (invert) g = 255 - g;
+    px[i] = px[i + 1] = px[i + 2] = g;
+  }
+  ctx.putImageData(d, 0, 0);
+  return c;
+}
+
+// Malaysian plates: 1-3 letters, 1-4 digits, optional suffix letter. Motorcycles are often two rows, so try joined lines first.
+function pickPlate(text) {
+  const lines = text.toUpperCase().split(/\n+/).map(norm).filter(Boolean);
+  const full = /^[A-Z]{1,3}[0-9]{1,4}[A-Z]{0,2}$/, part = /[A-Z]{1,3}[0-9]{1,4}[A-Z]{0,2}/;
+  const cands = [];
+  for (let i = 0; i < lines.length - 1; i++) cands.push(lines[i] + lines[i + 1]);
+  cands.push(...lines, lines.join(''));
+  for (const c of cands) if (full.test(c)) return c;
+  for (const c of cands) { const m = part.exec(c); if (m) return m[0]; }
+  return '';
+}
+
+$('cam').addEventListener('change', async (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  const url = URL.createObjectURL(file);
+  const img = $('preview'); img.src = url; img.style.display = 'block';
+  await img.decode().catch(() => {});
+  $('ocrStatus').textContent = worker ? 'Reading plate…' : 'Loading reader (first time only)…';
+  try {
+    const w = await getWorker();
+    $('ocrStatus').textContent = 'Reading plate…';
+    let plate = pickPlate((await w.recognize(prep(img, false))).data.text);
+    if (!plate) plate = pickPlate((await w.recognize(prep(img, true))).data.text);
+    if (plate) { $('plate').value = pretty(plate); $('ocrStatus').textContent = 'Check the plate, then confirm.'; check(); }
+    else { $('ocrStatus').textContent = 'Could not read a plate. Retake closer, or type it.'; $('plate').focus(); }
+  } catch (err) {
+    $('ocrStatus').textContent = 'Reader failed to load. Type the plate instead.';
+  }
+  e.target.value = '';
+});
+
+$('check').addEventListener('click', () => check());
+$('plate').addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+
+async function api(params) {
+  const q = new URLSearchParams(Object.assign({ key: API_KEY }, params));
+  const r = await fetch(API_URL + '?' + q.toString());
+  return r.json();
+}
+
+async function check(plateOverride) {
+  const plate = norm(plateOverride || $('plate').value);
+  if (!plate) { toast('Enter a plate number first'); return; }
+  $('check').disabled = true; $('check').textContent = '…';
+  try {
+    const res = await api({ action: 'check', plate });
+    if (!res.ok) { toast(res.error || 'Check failed'); return; }
+    current = res; category = ''; show(res);
+  } catch (err) {
+    toast('No connection to the sheet. Log on paper for now.');
+  } finally {
+    $('check').disabled = false; $('check').textContent = 'Check';
+  }
+}
+
+const LOOK = {
+  resident:         { bg: 'var(--res)',  title: 'Registered resident',  sub: (r) => 'Unit ' + r.unit + ' · RFID on file' },
+  resident_no_rfid: { bg: 'var(--res)',  title: 'Resident, no RFID yet', sub: (r) => 'Unit ' + r.unit + ' · ask them to register RFID' },
+  refer:            { bg: 'var(--flag)', title: 'Refer to management',   sub: (r) => 'Unit ' + r.unit + ' · follow SOP' },
+  visitor:          { bg: 'var(--vis)',  title: 'Not registered',        sub: () => 'Treat as visitor, pick a type' }
+};
+
+function show(r) {
+  $('plate').value = pretty(r.plate);
+  const look = LOOK[r.status];
+  $('band').style.background = look.bg; $('bandTitle').textContent = look.title; $('bandSub').textContent = look.sub(r);
+  $('result').classList.remove('hidden'); $('actions').classList.remove('hidden');
+  const isVisitor = r.status === 'visitor';
+  $('visitor').classList.toggle('hidden', !isVisitor);
+  document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', 'false'));
+  $('unit').value = '';
+  const list = $('suggList'); list.innerHTML = '';
+  const sugg = (isVisitor && r.suggestions) || [];
+  sugg.forEach((s) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.innerHTML = '<span></span><small></small>';
+    b.firstChild.textContent = pretty(s.plate); b.lastChild.textContent = 'Unit ' + s.unit;
+    b.addEventListener('click', () => check(s.plate));
+    list.appendChild(b);
+  });
+  $('suggest').classList.toggle('hidden', sugg.length === 0);
+}
+
+document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => {
+  category = c.dataset.cat;
+  document.querySelectorAll('.chip').forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+}));
+
+async function log(action) {
+  if (!current) return;
+  if (current.status === 'visitor' && action === 'entry' && !category) { toast('Pick a visitor type first'); return; }
+  try {
+    const res = await api({
+      action: 'log', plate: current.plate, result: current.status, category: category,
+      unit: current.status === 'visitor' ? $('unit').value : current.unit, guard: $('guard').value, act: action
+    });
+    if (!res.ok) { toast(res.error || 'Log failed'); return; }
+    toast((action === 'entry' ? 'Entry' : 'Exit') + ' logged for ' + pretty(current.plate));
+    reset();
+  } catch (err) { toast('No connection. Entry not saved.'); }
+}
+$('logIn').addEventListener('click', () => log('entry'));
+$('logOut').addEventListener('click', () => log('exit'));
+
+function reset() {
+  current = null; category = ''; $('plate').value = ''; $('ocrStatus').textContent = '';
+  $('preview').style.display = 'none';
+  ['result', 'suggest', 'visitor', 'actions'].forEach((id) => $(id).classList.add('hidden'));
+}
+</script>
+</body>
+</html>
