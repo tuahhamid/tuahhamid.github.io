@@ -10,7 +10,7 @@ That wasn't the only time. By the end of tender, much of the coordination I had 
 
 ## How I got here
 
-I was a BIM coordinator on an overseas hospital project, from schematic design to tender. Our office in Malaysia modeled the MEP services. Our overseas team handled the client and the consultants.
+I was a [BIM](https://www.autodesk.com/solutions/aec/bim) coordinator on an overseas hospital project, from schematic design to tender. Our office in Malaysia modeled the MEP services. Our overseas team handled the client and the consultants.
 
 There were six MEP services, each split into four zone models: Basement, Podium, Tower 1 and Tower 2. We federated them for coordination and ran clash reviews across the zones.
 
@@ -24,9 +24,9 @@ Design change is normal on any project. Part of my job was to carry information 
 
 ## What held up
 
-Revizto held up well as a tool, and two features in particular earned their place.
+[Revizto](https://revizto.com/) held up well as a tool, and two features in particular earned their place.
 
-The laser ranger, under 3D and then Dimension, let me quickly estimate or check whether a corridor was wide enough for access, or for a new wide service run to cross it.
+The laser ranger, under 3D and then Dimension, let me quickly estimate or check whether a corridor was wide  enough for access, or for a new wide service run to cross it.
 
 ![Laser ranger in Revizto](revizto-laser-ranger.gif)
 
@@ -48,9 +48,9 @@ Looking back, I think most of it came from upstream. The ground was still moving
 
 The idea is to measure how much each zone changes between one shared model drop and the next: elements added, deleted or moved. A burndown chart tracks how much work is left. This tracks whether the ground is still moving. In a zone that is settling, the number should fall toward zero.
 
-The water tank shows the limit of what we had. Compare Sheets told us what changed, but only on a sheet we already suspected. Change rate would show where things changed in every zone, before anyone noticed a clash.
+The water tank shows the limit of what we had. [Compare Sheets](http://help.revizto.com/hc/en-us/articles/4415753094415-Comparing-sheets) told us what changed, but only on a sheet we already suspected. Change rate would show where things changed in every zone, before anyone noticed a clash.
 
-The version I'm sketching takes a snapshot of each model from Revit at every shared drop, compares the snapshots in Power BI, and charts the result by zone. It isn't built yet, and I haven't tested it on a real project.
+The version I'm sketching takes a snapshot of each model from Revit at every shared drop, compares the snapshots in [Power BI](https://www.microsoft.com/en-my/power-platform/products/power-bi), and charts the result by zone. It isn't built yet, and I haven't tested it on a real project.
 
 
 ![Mockup of a change-rate dashboard by zone](change-rate-dashboard.png)
@@ -61,7 +61,7 @@ It has to read as design stability, not performance. A chart that says one disci
 
 ## What I'd do differently
 
-I'll start with the cheapest version. On my next project, at every shared drop, I'll export element counts per category for each zone model from a Revit schedule. When a zone another trade has already submitted shows new or removed equipment or ducts, that becomes a task for the affected trades before the clashes show up.
+I'll start with the cheapest version. On my next project, at every shared drop, I'll export element counts per category for each zone model from a [Revit](https://www.autodesk.com/asean/products/revit/architecture) schedule. When a zone another trade has already submitted shows new or removed equipment or ducts, that becomes a task for the affected trades before the clashes show up.
 
 Counts won't catch an element that moved, only ones added or removed. It's crude, but it will tell me whether the idea is worth building properly.
 
