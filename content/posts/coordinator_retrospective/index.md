@@ -28,8 +28,7 @@ Revizto held up well as a tool, and two features in particular earned their plac
 
 The laser ranger, under 3D and then Dimension, let me quickly estimate or check whether a corridor was wide enough for access, or for a new wide service run to cross it.
 
-<!-- TODO: add compressed revizto-laser-ranger.gif to this folder (currently 14.5MB, needs compression) -->
-<!-- ![Laser ranger in Revizto](revizto-laser-ranger.gif) -->
+![Laser ranger in Revizto](revizto-laser-ranger.gif)
 
 Compare Sheets let us study the layout changes architecture and structure had committed. In one review, we saw our water tank at roof level hanging over the roof boundary. We knew the previous boundary had been sufficient and the tank had been placed properly. Comparing the two versions of the sheet, with the geometry differences highlighted in blue and red, let us trace the change back to the commit that caused it.
 
