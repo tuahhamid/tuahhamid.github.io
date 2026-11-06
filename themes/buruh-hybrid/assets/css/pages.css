@@ -326,14 +326,6 @@
   padding-bottom: var(--space-12);
 }
 
-.avatar {
-  flex: none;
-  width: 128px;
-  height: 128px;
-  border-radius: var(--radius-full);
-  object-fit: cover;
-}
-
 .about-header__text {
   flex: 1 1 360px;
   min-width: 0;

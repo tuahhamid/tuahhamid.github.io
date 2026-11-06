@@ -2,11 +2,9 @@
 {{- $intro := index (findRE `(?s)<h3.*?</h3>` .Content 1) 0 }}
 {{- $body := .Content }}
 {{- with $intro }}{{ $body = replace $body . "" 1 }}{{ end }}
-{{- $portrait := (resources.Get "site-static/buruhhybrid.png").Fill "256x256 Center" | resources.Copy "img/buruhhybrid-256.png" }}
 <section class="grid-paper" data-grid-hover>
   {{- partial "grid-hover.html" . }}
   <div class="wrap wrap--narrow about-header">
-    <img class="avatar" src="{{ $portrait.RelPermalink }}" width="128" height="128" alt="Buruh Hybrid illustration: a worker in a hard hat at a laptop">
     <div class="about-header__text">
       <h1 class="display">{{ site.Params.author }}</h1>
       {{- with $intro }}
