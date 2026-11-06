@@ -1,0 +1,250 @@
+/* Hero */
+.hero__inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-12);
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-12);
+}
+
+.hero__intro {
+  flex: 1 1 420px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hero__intro .label {
+  color: var(--ink-muted);
+}
+
+.hero__intro .body {
+  max-width: 520px;
+}
+
+.hero__map {
+  flex: 1 1 460px;
+  min-width: 0;
+  max-width: 560px;
+}
+
+/* Riser-and-routes map */
+.riser-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 560 / 300;
+  background: var(--surface-raised);
+  border: var(--border-thin) solid var(--line-strong);
+}
+
+.riser-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.riser-map__riser {
+  fill: var(--navy-fill);
+}
+
+.riser-map__route {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-dasharray: 640;
+  animation: route-draw 1.8s cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+
+.riser-map__route--1 {
+  stroke-width: 10;
+  opacity: 0.9;
+}
+
+.riser-map__route--2 {
+  stroke-width: 6;
+  opacity: 0.75;
+  animation-delay: 0.35s;
+}
+
+.riser-map__route--3 {
+  stroke-width: 3;
+  opacity: 0.6;
+  animation-delay: 0.7s;
+}
+
+.riser-map__flow {
+  fill: #ff6a13;
+  offset-path: path("M52 70H250V40H400");
+  offset-rotate: 0deg;
+  animation: route-flow 6s 2s linear infinite both;
+}
+
+@keyframes route-draw {
+  from { stroke-dashoffset: 640; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes route-flow {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .riser-map__flow {
+    display: none;
+  }
+}
+
+.riser-map__tag {
+  position: absolute;
+  left: 1.4%;
+  top: 0;
+  transform: translateY(-120%);
+  color: var(--ink-muted);
+  font: var(--text-label);
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.riser-map__end {
+  position: absolute;
+  left: 73.5%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  min-height: 44px;
+  padding: var(--space-1) 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.riser-map__end--1 { top: 13.3%; }
+.riser-map__end--2 { top: 43.3%; }
+.riser-map__end--3 { top: 86.7%; }
+
+/* Latest posts */
+.latest {
+  padding-top: var(--space-12);
+}
+
+.latest__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--space-3);
+}
+
+.latest__all {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font: var(--text-small);
+  font-weight: 600;
+}
+
+.latest__list {
+  margin-top: var(--space-3);
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-thin) solid var(--line);
+}
+
+.post-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: var(--border-thin) solid var(--line);
+}
+
+.post-row__date {
+  flex: 0 0 120px;
+}
+
+.post-row__title {
+  flex: 1 1 360px;
+  min-width: 0;
+  color: var(--ink);
+  font: var(--text-body);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* The whole row is the link target. */
+.post-row__title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.post-row__title:focus-visible {
+  box-shadow: none;
+}
+
+.post-row__title:focus-visible::after {
+  box-shadow: var(--focus-ring);
+}
+
+.post-row:hover .post-row__title {
+  color: var(--accent-text);
+}
+
+/* Featured card */
+.feature {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-12);
+}
+
+.feature-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: 1060px;
+  padding: var(--space-6);
+  background: var(--surface-raised);
+  border: var(--border-thin) solid var(--line-strong);
+  box-shadow: var(--shadow-hard);
+}
+
+.feature-card__icon {
+  flex: none;
+  color: var(--ink);
+}
+
+.feature-card__text {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  background: var(--navy-fill);
+  color: var(--on-navy);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button:hover {
+  color: var(--on-navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

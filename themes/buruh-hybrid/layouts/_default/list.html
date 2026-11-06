@@ -1,0 +1,18 @@
+{{ define "main" }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--narrow page-header">
+    <h1 class="display">{{ .Title }}</h1>
+    <p class="readout">{{ printf "%02d" (len .Pages) }}</p>
+  </div>
+</section>
+{{- with .Pages }}
+<div class="wrap wrap--narrow plain-list">
+  <ul>
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}
+{{ end }}

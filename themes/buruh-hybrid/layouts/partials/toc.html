@@ -1,0 +1,12 @@
+{{- /* Shown only when the post has 5 or more H2 headings. */ -}}
+{{- $headings := findRE `(?s)<h2[^>]*\sid="[^"]+"[^>]*>.*?</h2>` .Content -}}
+{{- if ge (len $headings) 5 }}
+<aside class="toc" aria-label="On this page">
+  <p class="label toc__title">On this page</p>
+  <ol class="toc__list">
+    {{- range $index, $heading := $headings }}
+    <li><a class="toc__link" href="#{{ replaceRE `(?s)^<h2[^>]*\sid="([^"]+)".*$` "$1" $heading }}"><span class="toc__number">{{ printf "%02d" (add $index 1) }}</span>{{ $heading | plainify | htmlUnescape }}</a></li>
+    {{- end }}
+  </ol>
+</aside>
+{{- end }}

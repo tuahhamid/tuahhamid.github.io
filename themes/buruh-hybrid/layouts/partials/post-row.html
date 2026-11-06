@@ -1,0 +1,6 @@
+{{- /* Usage: partial "post-row.html" (dict "page" . "dateFormat" "2006-01-02" "class" "") */ -}}
+<li class="post-row{{ with .class }} {{ . }}{{ end }}">
+  <span class="readout post-row__date">{{ .page.Date.Format .dateFormat }}</span>
+  <a class="post-row__title" href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
+  <span class="readout">{{ .page.ReadingTime }} min</span>
+</li>

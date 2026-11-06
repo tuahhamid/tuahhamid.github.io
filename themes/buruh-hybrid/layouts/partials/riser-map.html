@@ -1,0 +1,15 @@
+{{- $posts := len (where site.RegularPages "Section" "posts") }}
+{{- $projects := len site.Data.projects.projects }}
+<div class="riser-map">
+  <svg viewBox="0 0 560 300" aria-hidden="true">
+    <rect class="riser-map__riser" x="24" y="20" width="28" height="260"></rect>
+    <path class="riser-map__route riser-map__route--1" d="M52 70H250V40H400"></path>
+    <path class="riser-map__route riser-map__route--2" d="M52 150H320V130H400"></path>
+    <path class="riser-map__route riser-map__route--3" d="M52 230H200V260H400"></path>
+    <rect class="riser-map__flow" x="-7" y="-7" width="14" height="14"></rect>
+  </svg>
+  <span class="riser-map__tag">Riser</span>
+  <a class="riser-map__end riser-map__end--1" href="{{ "/posts/" | relURL }}"><span class="label">Posts</span><span class="readout">{{ printf "%02d" $posts }}</span></a>
+  <a class="riser-map__end riser-map__end--2" href="{{ "/projects/" | relURL }}"><span class="label">Projects</span><span class="readout">{{ printf "%02d" $projects }}</span></a>
+  <a class="riser-map__end riser-map__end--3" href="/mini-mep/"><span class="label">Mini MEP</span><span class="readout">Play</span></a>
+</div>

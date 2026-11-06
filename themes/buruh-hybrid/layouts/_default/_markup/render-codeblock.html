@@ -1,0 +1,7 @@
+<figure class="codeblock">
+  <div class="codeblock__bar">
+    <span class="codeblock__lang">{{ .Type | default "text" }}</span>
+    <button class="codeblock__copy" type="button" data-copy-code aria-live="polite">COPY</button>
+  </div>
+  {{ transform.Highlight .Inner .Type (merge .Options (dict "lineNos" true "lineNumbersInTable" false)) }}
+</figure>

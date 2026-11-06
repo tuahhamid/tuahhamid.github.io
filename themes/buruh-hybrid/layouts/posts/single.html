@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{- $current := . }}
+{{- $older := where (where site.RegularPages "Section" "posts").ByDate.Reverse "Date" "lt" .Date }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--post post-header">
+    <a class="post-header__back" href="{{ "/posts/" | relURL }}">← POSTS</a>
+    <p class="readout">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} min read</p>
+    <h1 class="display">{{ .Title }}</h1>
+    <p class="small post-header__author">{{ site.Params.author }}</p>
+  </div>
+</section>
+
+<div class="wrap wrap--post post-layout">
+  <article class="post-body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
+    <footer class="post-footer">
+      {{- with index $older 0 }}
+      <a class="post-footer__link post-footer__link--prev" href="{{ .RelPermalink }}"><span class="readout">← Previous · {{ .Date.Format "2006-01-02" }}</span><span>{{ .Title }}</span></a>
+      {{- end }}
+      {{- range where site.Params.social "name" "Threads" }}
+      <a class="post-footer__link" href="{{ .url }}"><span class="readout">Reply</span><span>{{ site.Params.threadsLine }}</span></a>
+      {{- end }}
+    </footer>
+  </article>
+  {{- partial "toc.html" . }}
+</div>
+{{ end }}

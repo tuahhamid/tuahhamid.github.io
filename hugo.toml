@@ -1,61 +1,95 @@
-baseURL = 'https://example.org/'
+baseURL = "https://tuahhamid.github.io/"
 title = 'Buruh Hybrid | Tuah Hamid'
-theme = 'hugo-coder'
-markup.goldmark.renderer.unsafe = true
+theme = 'buruh-hybrid'
+languageCode = "en"
+defaultContentLanguage = "en"
 enableEmoji = true
+markup.goldmark.renderer.unsafe = true
+markup.goldmark.parser.wrapStandAloneImageWithinParagraph = false
+markup.highlight.noClasses = false
 
 [pagination]
 pagerSize = 6
 
-languagecode = "en"
-defaultcontentlanguage = "en"
+# static/ is also mounted into assets so Hugo can read and resize its images.
+# Their public URLs do not change.
+[[module.mounts]]
+  source = "assets"
+  target = "assets"
 
-[markup.highlight]
-style = "github-dark"
+[[module.mounts]]
+  source = "static"
+  target = "static"
+
+[[module.mounts]]
+  source = "static"
+  target = "assets/site-static"
 
 [params]
   author = "Tuah Hamid"
-  info = "Buruh Hybrid"
+  handle = "@buruh.hybrid"
   description = "Tuah Hamid is a Digital Engineer from Malaysia."
   keywords = "tuah, tuahhamid, buruh, buruhhybrid, website"
-  avatarurl = "avatar.jpg"
-
-  faviconSVG = "/img/favicon.svg"
-  favicon_32 = "/img/favicon-32x32.png"
-  favicon_16 = "favicon-16x16.png"
-
   since = 2019
 
-  enableTwemoji = true
+  # PLACEHOLDER wording: post footer line.
+  threadsLine = "Talk about it on Threads, @buruh.hybrid"
+  # PLACEHOLDER wording: 404 page title.
+  notFoundTitle = "Page not found"
 
-  colorScheme = "dark"
-  hidecolorschemetoggle = false
+  # About page links, in display order. Names match params.social.
+  glanceLinks = ["Threads", "GitHub", "LinkedIn", "Email"]
 
-# Social links
+# About page "at a glance" panel
+[[params.glance]]
+  label = "Based"
+  value = "Malaysia"
+
+[[params.glance]]
+  label = "Works with"
+  value = "Revit · Dynamo · pyRevit · Python · Power BI"
+
+[[params.glance]]
+  label = "Learning"
+  value = "C# · .NET · Azure · BIM 2.0 tools"
+
+[[params.glance]]
+  label = "Teaches"
+  value = "Scratch · micro:bit robotics"
+
+# Footer and About links
 [[params.social]]
-  name = "Github"
-  icon = "fa-brands fa-github fa-2x"
+  name = "GitHub"
   weight = 1
   url = "https://github.com/tuahhamid"
 
 [[params.social]]
-name = "LinkedIn"
-icon = "fa-brands fa-linkedin fa-2x"
-weight = 4
-url = "https://www.linkedin.com/in/tuahhamid/"
+  name = "Threads"
+  weight = 2
+  url = "https://www.threads.com/@buruh.hybrid"
 
 [[params.social]]
-  name = "email"
-  icon = "fa-regular fa-comments fa-2x"
+  name = "LinkedIn"
   weight = 3
+  url = "https://www.linkedin.com/in/tuahhamid/"
+
+[[params.social]]
+  name = "Email"
+  weight = 4
   url = "mailto:tuah.edu@gmail.com"
 
 # Menu links
 [[menu.main]]
   name = "Posts"
   weight = 1
-  url  = "posts"
+  url = "/posts/"
+
+[[menu.main]]
+  name = "Projects"
+  weight = 2
+  url = "/projects/"
+
 [[menu.main]]
   name = "About"
-  weight = 2
-  url = "about"
+  weight = 3
+  url = "/about/"

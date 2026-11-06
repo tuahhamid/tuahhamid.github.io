@@ -1,0 +1,29 @@
+{{ define "main" }}
+{{- $projects := site.Data.projects.projects }}
+{{- $live := len (where $projects "status" "Live") }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--post page-header">
+    <h1 class="display">{{ .Title }}</h1>
+    <p class="readout">{{ printf "%02d" (len $projects) }} projects · {{ printf "%02d" $live }} live · {{ printf "%02d" (sub (len $projects) $live) }} in progress or private</p>
+  </div>
+</section>
+
+<div class="wrap wrap--post project-grid">
+  {{- range $projects }}
+  <article class="project-card{{ if .featured }} project-card--featured{{ end }}{{ if .dashed }} project-card--dashed{{ end }}">
+    <div class="project-card__top">
+      {{ partial "icon.html" (dict "name" .icon "size" 48) }}
+      <span class="label chip{{ if eq .status "Live" }} chip--live{{ end }}">{{ .status }}</span>
+    </div>
+    <h2 class="heading">{{ .name }}</h2>
+    <p class="body">{{ .summary }}</p>
+    <p class="readout">{{ .stack }}</p>
+    {{- $featured := .featured }}
+    {{- with .link }}
+    <a class="button{{ if not $featured }} button--outline{{ end }}" href="{{ .url }}">{{ .label }}{{ partial "icon.html" (dict "name" "external" "size" 20) }}</a>
+    {{- end }}
+  </article>
+  {{- end }}
+</div>
+{{ end }}
