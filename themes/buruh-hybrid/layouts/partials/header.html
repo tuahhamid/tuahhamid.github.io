@@ -1,0 +1,13 @@
+{{- $path := .RelPermalink }}
+<header class="site-header">
+  <a class="site-header__logo" href="{{ "/" | relURL }}">
+    <img src="{{ "img/bh-wordmark-line-reverse.svg" | relURL }}" width="175" height="18" alt="Buruh Hybrid, home">
+  </a>
+  <nav class="site-nav" aria-label="Main">
+    {{- range site.Menus.main }}
+    {{- $url := .URL | relURL }}
+    <a class="site-nav__link" href="{{ $url }}"{{ if eq $path $url }} aria-current="page"{{ else if hasPrefix $path $url }} aria-current="true"{{ end }}>{{ .Name }}</a>
+    {{- end }}
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme">Dark</button>
+  </nav>
+</header>

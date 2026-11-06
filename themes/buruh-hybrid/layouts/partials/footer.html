@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="small site-footer__copy">© {{ site.Params.since }} – {{ now.Year }} {{ site.Params.author }} · <span class="mono">{{ site.Params.handle }}</span></p>
+    <nav class="site-footer__links" aria-label="Elsewhere">
+      {{- range sort site.Params.social "weight" }}
+      <a class="small" href="{{ .url }}">{{ .name }}</a>
+      {{- end }}
+    </nav>
+  </div>
+</footer>

@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{- $latest := first 3 (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+<section class="hero grid-paper" data-hero>
+  <div class="hero__hover" data-hero-hover aria-hidden="true">
+    <div class="hero__cell" data-hero-cell></div>
+    <div class="hero__lines"></div>
+  </div>
+  <div class="wrap hero__inner">
+    <div class="hero__intro">
+      <p class="label">Digital Engineer · Malaysia</p>
+      <h1 class="display">{{ site.Params.author }}</h1>
+      <p class="body">I trained as a civil engineer, started out modeling in BIM, and now build the tools I used to wish I had.</p>
+      <p class="body">Most of my work sits where BIM meets software: Revit automation, model validation, reporting, and getting AI into day-to-day engineering.</p>
+    </div>
+    <div class="hero__map">
+      {{- partial "riser-map.html" . }}
+    </div>
+  </div>
+</section>
+
+<section class="wrap latest">
+  <div class="latest__head">
+    <h2 class="heading">Latest posts</h2>
+    <a class="latest__all" href="{{ "/posts/" | relURL }}">All posts</a>
+  </div>
+  <ol class="latest__list">
+    {{- range $latest }}
+    <li class="post-row">
+      <span class="readout post-row__date">{{ .Date.Format "2006-01-02" }}</span>
+      <a class="post-row__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <span class="readout">{{ .ReadingTime }} min</span>
+    </li>
+    {{- end }}
+  </ol>
+</section>
+
+<section class="wrap feature">
+  <div class="feature-card">
+    <span class="feature-card__icon">{{ partial "icon.html" (dict "name" "duct" "size" 48) }}</span>
+    <div class="feature-card__text">
+      <p class="readout">Side project · Browser game</p>
+      <h2 class="heading">Mini MEP</h2>
+      <p class="body">A browser puzzle game about fitting pipes, ducts and cables above a hospital ceiling.</p>
+    </div>
+    <a class="button" href="/mini-mep/">Play Mini MEP{{ partial "icon.html" (dict "name" "external" "size" 20) }}</a>
+  </div>
+</section>
+{{ end }}

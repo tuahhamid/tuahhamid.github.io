@@ -1,0 +1,7 @@
+{{- $scripts := slice "js/theme.js" }}
+{{- if .IsHome }}{{ $scripts = $scripts | append "js/hero-grid.js" }}{{ end }}
+{{- $resources := slice }}
+{{- range $scripts }}{{ $resources = $resources | append (resources.Get .) }}{{ end }}
+{{- $name := cond .IsHome "js/home.bundle.js" "js/site.bundle.js" }}
+{{- $js := $resources | resources.Concat $name | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

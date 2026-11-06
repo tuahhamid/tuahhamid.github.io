@@ -1,0 +1,32 @@
+projects:
+  - name: Mini MEP
+    status: Live
+    icon: duct
+    summary: A browser puzzle game about fitting pipes, ducts and cables above a hospital ceiling.
+    stack: HTML · JavaScript · Firebase
+    link:
+      url: /mini-mep/
+      label: Play it
+    featured: true
+
+  - name: JB Metro
+    status: Research
+    icon: tunnel
+    summary: What the RTS Link and two new corridors add to Johor Bahru, and whether Bukit Chagar can cope.
+    stack: Python · In progress
+    link:
+      url: https://github.com/tuahhamid/jb-metro
+      label: View repo
+
+  - name: PanelPack
+    status: In progress
+    icon: measure
+    summary: An aluminum formwork panel solver for the browser, built to take Revit out of the packing exercise.
+    stack: Web solver · Not public yet
+
+  - name: pyRevit tools
+    status: Private
+    icon: wrench
+    summary: Revit extensions for preflight checks and repetitive placement, released in versions with engineer feedback.
+    stack: Python · Revit API
+    dashed: true

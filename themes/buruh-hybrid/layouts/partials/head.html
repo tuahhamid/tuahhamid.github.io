@@ -1,0 +1,28 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- partial "theme-init.html" . }}
+{{- $description := .Description | default site.Params.description }}
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="author" content="{{ site.Params.author }}">
+<meta name="keywords" content="{{ site.Params.keywords }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<link rel="icon" href="{{ "img/bh-monogram.svg" | relURL }}" type="image/svg+xml">
+<link rel="alternate icon" href="{{ "favicon.ico" | relURL }}">
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{- end }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+{{- $sheets := slice "css/tokens.css" "css/base.css" "css/layout.css" }}
+{{- if .IsHome }}{{ $sheets = $sheets | append "css/home.css" }}{{ end }}
+{{- $resources := slice }}
+{{- range $sheets }}{{ $resources = $resources | append (resources.Get .) }}{{ end }}
+{{- $name := cond .IsHome "css/home.bundle.css" "css/site.bundle.css" }}
+{{- $css := $resources | resources.Concat $name | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
