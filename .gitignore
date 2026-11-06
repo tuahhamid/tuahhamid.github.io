@@ -4,6 +4,19 @@
 
 # Hugo state
 /hugo_stats.json
+/.hugo_build.lock
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Claude Code local settings
+.claude/settings.local.json
 
 # Node dependencies
 /node_modules/
