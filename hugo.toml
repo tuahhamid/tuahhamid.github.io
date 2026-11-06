@@ -5,9 +5,25 @@ languageCode = "en"
 defaultContentLanguage = "en"
 enableEmoji = true
 markup.goldmark.renderer.unsafe = true
+markup.goldmark.parser.wrapStandAloneImageWithinParagraph = false
+markup.highlight.noClasses = false
 
 [pagination]
 pagerSize = 6
+
+# static/ is also mounted into assets so Hugo can read and resize its images.
+# Their public URLs do not change.
+[[module.mounts]]
+  source = "assets"
+  target = "assets"
+
+[[module.mounts]]
+  source = "static"
+  target = "static"
+
+[[module.mounts]]
+  source = "static"
+  target = "assets/site-static"
 
 [params]
   author = "Tuah Hamid"
@@ -15,6 +31,31 @@ pagerSize = 6
   description = "Tuah Hamid is a Digital Engineer from Malaysia."
   keywords = "tuah, tuahhamid, buruh, buruhhybrid, website"
   since = 2019
+
+  # PLACEHOLDER wording: post footer line.
+  threadsLine = "Talk about it on Threads, @buruh.hybrid"
+  # PLACEHOLDER wording: 404 page title.
+  notFoundTitle = "Page not found"
+
+  # About page links, in display order. Names match params.social.
+  glanceLinks = ["Threads", "GitHub", "LinkedIn", "Email"]
+
+# About page "at a glance" panel
+[[params.glance]]
+  label = "Based"
+  value = "Malaysia"
+
+[[params.glance]]
+  label = "Works with"
+  value = "Revit · Dynamo · pyRevit · Python · Power BI"
+
+[[params.glance]]
+  label = "Learning"
+  value = "C# · .NET · Azure · BIM 2.0 tools"
+
+[[params.glance]]
+  label = "Teaches"
+  value = "Scratch · micro:bit robotics"
 
 # Footer and About links
 [[params.social]]

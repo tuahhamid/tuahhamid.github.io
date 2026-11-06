@@ -1,0 +1,21 @@
+{{- /* Sizes come from the page bundle, or from the local copy of a hotlinked static image. */ -}}
+{{- $src := .Destination -}}
+{{- $alt := .PlainText -}}
+{{- $image := .Page.Resources.Get .Destination -}}
+{{- if $image -}}
+  {{- $src = $image.RelPermalink -}}
+{{- else if strings.Contains .Destination "/refs/heads/main/static/" -}}
+  {{- $image = resources.Get (replaceRE `^.*/refs/heads/main/static/` "site-static/" .Destination) -}}
+{{- end -}}
+{{- $size := "" -}}
+{{- with $image -}}
+  {{- $size = printf ` width="%d" height="%d"` .Width .Height -}}
+{{- end -}}
+{{- if .IsBlock -}}
+<figure>
+  <img src="{{ $src }}" alt="{{ $alt }}"{{ $size | safeHTMLAttr }} loading="lazy">
+  <figcaption><span class="readout">Fig. {{ add .Ordinal 1 }}</span><span class="small">{{ $alt }}</span></figcaption>
+</figure>
+{{- else -}}
+<img src="{{ $src }}" alt="{{ $alt }}"{{ $size | safeHTMLAttr }} loading="lazy">
+{{- end -}}

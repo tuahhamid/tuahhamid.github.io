@@ -1,0 +1,10 @@
+{{ define "main" }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--narrow page-header">
+    <p class="readout">404</p>
+    <h1 class="display">{{ site.Params.notFoundTitle }}</h1>
+    <a class="post-header__back" href="{{ "/posts/" | relURL }}">← POSTS</a>
+  </div>
+</section>
+{{ end }}

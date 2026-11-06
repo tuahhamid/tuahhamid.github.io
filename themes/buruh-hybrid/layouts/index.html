@@ -1,10 +1,7 @@
 {{ define "main" }}
 {{- $latest := first 3 (where site.RegularPages "Section" "posts").ByDate.Reverse }}
-<section class="hero grid-paper" data-hero>
-  <div class="hero__hover" data-hero-hover aria-hidden="true">
-    <div class="hero__cell" data-hero-cell></div>
-    <div class="hero__lines"></div>
-  </div>
+<section class="hero grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
   <div class="wrap hero__inner">
     <div class="hero__intro">
       <p class="label">Digital Engineer · Malaysia</p>
@@ -25,11 +22,7 @@
   </div>
   <ol class="latest__list">
     {{- range $latest }}
-    <li class="post-row">
-      <span class="readout post-row__date">{{ .Date.Format "2006-01-02" }}</span>
-      <a class="post-row__title" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      <span class="readout">{{ .ReadingTime }} min</span>
-    </li>
+    {{ partial "post-row.html" (dict "page" . "dateFormat" "2006-01-02") }}
     {{- end }}
   </ol>
 </section>

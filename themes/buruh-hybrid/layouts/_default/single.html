@@ -1,10 +1,18 @@
 {{ define "main" }}
-<div class="grid-paper">
-  <div class="wrap page-header">
+{{- /* content/about/ is a root-level bundle; its page type differs between Hugo versions. */}}
+{{- if eq .RelPermalink ("/about/" | relURL) }}
+{{- partial "about.html" . }}
+{{- else }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--narrow page-header">
     <h1 class="display">{{ .Title }}</h1>
   </div>
+</section>
+<div class="wrap wrap--narrow plain-list">
+  <div class="prose">
+    {{ .Content }}
+  </div>
 </div>
-<div class="wrap page-header">
-  {{ .Content }}
-</div>
+{{- end }}
 {{ end }}

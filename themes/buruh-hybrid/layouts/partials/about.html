@@ -1,0 +1,41 @@
+{{- /* The first h3 of the content moves up into the header. */}}
+{{- $intro := index (findRE `(?s)<h3.*?</h3>` .Content 1) 0 }}
+{{- $body := .Content }}
+{{- with $intro }}{{ $body = replace $body . "" 1 }}{{ end }}
+{{- $portrait := (resources.Get "site-static/buruhhybrid.png").Fill "256x256 Center" | resources.Copy "img/buruhhybrid-256.png" }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--narrow about-header">
+    <img class="avatar" src="{{ $portrait.RelPermalink }}" width="128" height="128" alt="Buruh Hybrid illustration: a worker in a hard hat at a laptop">
+    <div class="about-header__text">
+      <h1 class="display">{{ site.Params.author }}</h1>
+      {{- with $intro }}
+      <p class="heading about-header__sub">{{ replaceRE `(?s)</?h3[^>]*>` "" . | safeHTML }}</p>
+      {{- end }}
+    </div>
+  </div>
+</section>
+
+<div class="wrap wrap--narrow about-layout">
+  <article class="prose about-body">
+    {{ $body | safeHTML }}
+  </article>
+  <aside class="glance" aria-label="At a glance">
+    <dl class="glance__list">
+      {{- range site.Params.glance }}
+      <div class="glance__row">
+        <dt class="label">{{ .label }}</dt>
+        <dd>{{ .value }}</dd>
+      </div>
+      {{- end }}
+    </dl>
+    <nav class="glance__links" aria-label="Find me">
+      {{- range site.Params.glanceLinks }}
+      {{- $name := . }}
+      {{- range where site.Params.social "name" $name }}
+      <a href="{{ .url }}">{{ .name }}{{ if eq $name "Threads" }} · {{ site.Params.handle }}{{ end }}</a>
+      {{- end }}
+      {{- end }}
+    </nav>
+  </aside>
+</div>

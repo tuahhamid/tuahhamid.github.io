@@ -5,6 +5,14 @@
   padding-right: var(--space-6);
 }
 
+.wrap--narrow {
+  max-width: 880px;
+}
+
+.wrap--post {
+  max-width: 1040px;
+}
+
 /* Header */
 .site-header {
   display: flex;
@@ -70,6 +78,8 @@
 
 /* Grid paper */
 .grid-paper {
+  position: relative;
+  overflow: hidden;
   background-color: var(--surface);
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
@@ -78,7 +88,64 @@
   border-bottom: var(--border-thin) solid var(--line);
 }
 
+.grid-paper > .wrap {
+  position: relative;
+}
+
+/* Grid hover: darker lines around the cursor, the cell under it pulsing. */
+.grid-hover {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.grid-hover.is-active {
+  visibility: visible;
+}
+
+.grid-hover__cell {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  background: var(--orange-soft);
+  animation: grid-pulse 0.9s ease-in-out infinite alternate;
+}
+
+.grid-hover__lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(168px circle at var(--gx, 0) var(--gy, 0), #000, transparent);
+  mask-image: radial-gradient(168px circle at var(--gx, 0) var(--gy, 0), #000, transparent);
+}
+
+@keyframes grid-pulse {
+  from { opacity: 1; }
+  to { opacity: 0.35; }
+}
+
+@media (hover: none) {
+  .grid-hover {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-hover {
+    display: none;
+  }
+}
+
 .page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   padding-top: var(--space-12);
   padding-bottom: var(--space-12);
 }

@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{- /* Keeps the old /posts/page/1/ redirect; the list itself is not paged. */}}
+{{- $paginator := .Paginate .Pages 1000 }}
+{{- $posts := (where site.RegularPages "Section" "posts").ByDate }}
+{{- $minutes := 0 }}
+{{- range $posts }}{{ $minutes = add $minutes .ReadingTime }}{{ end }}
+<section class="grid-paper" data-grid-hover>
+  {{- partial "grid-hover.html" . }}
+  <div class="wrap wrap--narrow page-header">
+    <h1 class="display">{{ .Title }}</h1>
+    <p class="readout">{{ printf "%02d" (len $posts) }} posts · {{ (index $posts 0).Date.Year }} – {{ (index $posts.Reverse 0).Date.Year }} · {{ $minutes }} min in total</p>
+  </div>
+</section>
+
+<div class="wrap wrap--narrow post-years">
+  {{- range $posts.Reverse.GroupByDate "2006" }}
+  <section aria-labelledby="y{{ .Key }}">
+    <h2 class="readout post-year__heading" id="y{{ .Key }}">{{ .Key }} — {{ printf "%02d" (len .Pages) }}</h2>
+    <ol class="post-year__list">
+      {{- range .Pages }}
+      {{ partial "post-row.html" (dict "page" . "dateFormat" "01-02" "class" "post-row--list") }}
+      {{- end }}
+    </ol>
+  </section>
+  {{- end }}
+</div>
+{{ end }}

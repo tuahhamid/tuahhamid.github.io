@@ -1,9 +1,4 @@
 /* Hero */
-.hero {
-  position: relative;
-  overflow: hidden;
-}
-
 .hero__inner {
   position: relative;
   display: flex;
@@ -34,56 +29,6 @@
   flex: 1 1 460px;
   min-width: 0;
   max-width: 560px;
-}
-
-/* Grid hover */
-.hero__hover {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.hero__hover.is-active {
-  visibility: visible;
-}
-
-.hero__cell {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 48px;
-  height: 48px;
-  background: var(--orange-soft);
-  animation: hero-pulse 0.9s ease-in-out infinite alternate;
-}
-
-.hero__lines {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--line-strong) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: radial-gradient(168px circle at var(--gx, 0) var(--gy, 0), #000, transparent);
-  mask-image: radial-gradient(168px circle at var(--gx, 0) var(--gy, 0), #000, transparent);
-}
-
-@keyframes hero-pulse {
-  from { opacity: 1; }
-  to { opacity: 0.35; }
-}
-
-@media (hover: none) {
-  .hero__hover {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__hover {
-    display: none;
-  }
 }
 
 /* Riser-and-routes map */
