@@ -350,11 +350,39 @@
 .about-body {
   flex: 999 1 460px;
   min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
   gap: var(--space-6);
 }
 
-.about-body figure {
+/* Intro beside the photo; anything after it takes the full width. */
+.about-body > * {
+  grid-column: 1 / -1;
+}
+
+.about-body > p:first-of-type {
+  grid-column: 1;
+}
+
+.about-body > figure {
+  grid-column: 2;
   margin: 0;
+}
+
+.about-body > figure img {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .about-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-body > p:first-of-type,
+  .about-body > figure {
+    grid-column: 1;
+  }
 }
 
 .glance {
