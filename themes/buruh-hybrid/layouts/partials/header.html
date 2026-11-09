@@ -8,6 +8,9 @@
     {{- $url := .URL | relURL }}
     <a class="site-nav__link" href="{{ $url }}"{{ if eq $path $url }} aria-current="page"{{ else if hasPrefix $path $url }} aria-current="true"{{ end }}>{{ .Name }}</a>
     {{- end }}
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme">Dark</button>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Light or dark">
+      <span class="theme-toggle__moon">{{ partial "icon.html" (dict "name" "moon" "size" 24) }}</span>
+      <span class="theme-toggle__sun">{{ partial "icon.html" (dict "name" "sun" "size" 24) }}</span>
+    </button>
   </nav>
 </header>

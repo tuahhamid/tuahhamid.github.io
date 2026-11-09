@@ -5,7 +5,6 @@
 
   function render() {
     var dark = root.getAttribute("data-theme") === "dark";
-    button.textContent = dark ? "Light" : "Dark";
     button.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
   }
 
